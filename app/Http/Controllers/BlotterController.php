@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Blotter;
 use Illuminate\Http\Request;
 
 class BlotterController extends Controller
@@ -13,7 +14,9 @@ class BlotterController extends Controller
      */
     public function index()
     {
-        return view('admin.blotters.index');
+        return view('admin.blotters.index', [
+            'blotters' => Blotter::get(),
+        ]);
     }
 
     /**
@@ -23,6 +26,7 @@ class BlotterController extends Controller
      */
     public function create()
     {
+
         return view('admin.blotters.create');
     }
 
@@ -34,7 +38,19 @@ class BlotterController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate(
+            [
+                'complainant_name' => 'required',
+                'respondent_name' => 'required',
+                'victims' => 'required',
+                'location' => 'required',
+                'date' => 'required|date',
+                'type' => 'required',
+                'about' => 'required',
+            ]
+        );
+        Blotter::create($request->all());
+        return redirect()->route('blotter.index')->with('message', 'Added Successfully');
     }
 
     /**
@@ -45,7 +61,6 @@ class BlotterController extends Controller
      */
     public function show($id)
     {
-        //
     }
 
     /**
@@ -56,7 +71,9 @@ class BlotterController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('admin.blotters.edit', [
+            'blotter' => Blotter::findOrFail($id),
+        ]);
     }
 
     /**
@@ -66,11 +83,24 @@ class BlotterController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Blotter $blotter)
     {
-        //
+        $request->validate(
+            [
+                'complainant_name' => 'required',
+                'respondent_name' => 'required',
+                'victims' => 'required',
+                'location' => 'required',
+                'date' => 'required|date',
+                'type' => 'required',
+                'about' => 'required',
+            ]
+        );
+        $blotter->update($request->all());
+        return redirect()->route('blotter.index')->with('message', 'Updated Successfully');
     }
 
+    
     /**
      * Remove the specified resource from storage.
      *

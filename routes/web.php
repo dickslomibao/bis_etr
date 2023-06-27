@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\admin\CerificateController;
 use App\Http\Controllers\admin\NewsfeedController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AssetsController;
@@ -9,8 +10,11 @@ use App\Http\Controllers\Admin\RequestController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\BarangayPositionController;
 use App\Http\Controllers\BlotterController;
+use App\Http\Controllers\NewscommentController;
 use App\Http\Controllers\OfficialsController;
 use App\Http\Controllers\Users\MyRequestController;
+use App\Models\Newscomment;
+use App\Models\Post;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,6 +30,16 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+Route::get('/newsview/{slug}', function ($slug) {
+    $news = Post::where('slug', $slug)->first();
+    if ($news) {
+        return view('newsview', [
+            'news' => $news,
+            'comments'=>Newscomment::where('news_id',"=",$news->id)->with('relation')->get(),
+        ]);
+    }
+    return redirect(404);
 });
 Route::get('/admin', function () {
     return view('admin.index');
@@ -54,7 +68,13 @@ Route::middleware('auth')->group(function () {
         Route::get('/admin/assets/', 'index')->name('assets');
         Route::post('/admin/assets/store', 'store')->name('assets.store');
     });
-    
+    Route::controller(NewscommentController::class)->group(function () {
+        Route::POST('/comments/store', 'store')->name('newscomment.store');
+
+        //newsviews ajac post
+        Route::POST('/comments/news_comment', 'getNewsComment')->name('newscomment.comment');
+    });
+
     Route::controller(OfficialsController::class)->group(function () {
         Route::get('/admin/officials/', 'index')->name('officials.index');
         Route::get('/admin/officials/create', 'create')->name('officials.create');
@@ -67,8 +87,18 @@ Route::middleware('auth')->group(function () {
         Route::get('/admin/blotter/', 'index')->name('blotter.index');
         Route::get('/admin/blotter/create', 'create')->name('blotter.create');
         Route::POST('/admin/blotter/store', 'store')->name('blotter.store');
-        Route::get('/admin/blotter/{id}/edit', 'show')->name('blotter.edit');
-        Route::POST('/admin/blotter/update/{official}', 'update')->name('blotter.update');
+        Route::get('/admin/blotter/{id}/edit', 'edit')->name('blotter.edit');
+        Route::POST('/admin/blotter/update/{blotter}', 'update')->name('blotter.update');
+    });
+
+    Route::controller(CerificateController::class)->group(function () {
+        Route::get('/admin/certificate/', 'index')->name('certificate.index');
+        Route::get('/admin/certificate/create', 'create')->name('certificate.create');
+        Route::POST('/admin/certificate/store', 'store')->name('certificate.store');
+        Route::GET('/admin/certificate/print', 'print')->name('certificate.print');
+
+        Route::get('/admin/certificate/{id}/edit', 'edit')->name('certificate.edit');
+        Route::POST('/admin/certificate/update/{certificate}', 'update')->name('certificate.update');
     });
 
     Route::controller(NewsfeedController::class)->group(function () {

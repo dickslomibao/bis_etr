@@ -16,6 +16,7 @@ class Post extends Model
         'thumbnail',
         'content',
         'status',
+        'slug',
         'date_posted',
     ];
 }

@@ -49,7 +49,6 @@
                 </div>
             </li>
         </ul>
-
         <p>Management</p>
         <ul>
             <li>
@@ -57,7 +56,7 @@
                     <div class="top-curve"></div>
                     <div class="item">
 
-                        <a href="{{route('officials.index')}}">
+                        <a href="{{ route('officials.index') }}">
                             <div><i class="fa-solid fa-users"></i></div> Officials
                         </a>
                     </div>
@@ -80,7 +79,7 @@
                     <div class="top-curve"></div>
                     <div class="item">
                         <a href="{{ route('post') }}">
-                            <div><i class="fa-solid fa-newspaper"></i></div>Post
+                            <div><i class="fa-solid fa-newspaper"></i></div>News
                         </a>
                     </div>
                     <div class="bottom-curve"></div>
@@ -109,11 +108,11 @@
                 </div>
             </li>
             <li>
-                <div class="">
+                <div class="{{ $active == 'certificate' ? 'active' : '' }}">
                     <div class="top-curve"></div>
                     <div class="item">
-                        <a href="">
-                            <div><i class="fa-solid fa-certificate"></i></div>Clearance
+                        <a href="{{route('certificate.index')}}">
+                            <div><i class="fa-solid fa-certificate"></i></div>Certifactes
                         </a>
                     </div>
                     <div class="bottom-curve"></div>
@@ -134,7 +133,7 @@
                 <div class="{{ $active == 'blotters' ? 'active' : '' }}">
                     <div class="top-curve"></div>
                     <div class="item">
-                        <a href="{{route('blotter.index')}}">
+                        <a href="{{ route('blotter.index') }}">
                             <div><i class="fa-solid fa-users-slash"></i></div>Blotter
                         </a>
                     </div>
@@ -188,8 +187,8 @@
                     </div>
                     <div class="col-lg-6" style="display:flex;justify-content:flex-end">
                         <div>
-                            <a class="btn btn-sm btn-outline-secondary" style="" data-bs-target="#exampleModal"><i
-                                    class="fa-regular fa-image"></i></a>
+                            <a class="btn btn-sm btn-outline-secondary" style="" target="_blank"
+                                href="{{ route('assets') }}"><i class="fa-regular fa-image"></i></a>
                             <a data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
                                 aria-controls="offcanvasRight" id="notif_click" style="" type="button"
                                 class="position-relative btn btn-sm btn-outline-secondary">

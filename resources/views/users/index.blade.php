@@ -70,9 +70,6 @@
 
                             let includes = buildeImages(images);
 
-
-
-
                             $('#newsfeed_display').append(`
                                     <div class="post-container" id="` + newsfeed['id'] + `">
                                         <div class="post-header">

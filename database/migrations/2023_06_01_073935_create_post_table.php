@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('thumbnail')->nullable();
             $table->text('content');
             $table->integer('status')->nullable();
+            $table->string('slug');
             $table->dateTime('date_posted')->nullable();	
             $table->timestamps();
         });

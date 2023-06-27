@@ -13,20 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('blotters', function (Blueprint $table) {
+        Schema::create('news_comments', function (Blueprint $table) {
             $table->id();
-            $table->string('complainant_name');
-            $table->string('respondent_name');
-            $table->text('victims');
-            $table->text('location');
-            $table->dateTime('date');
-            $table->string('type');
-            $table->text('about');
-            $table->smallInteger('status')->default('1');
+            $table->uuid('user_id');
+            $table->uuid('news_id');
+            $table->longText('comments');
             $table->timestamps();
+            $table->foreign('news_id')->references('id')->on('posts')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
-
     /**
      * Reverse the migrations.
      *
@@ -34,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('blotters');
+        Schema::dropIfExists('news_comments');
     }
 };

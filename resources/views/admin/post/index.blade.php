@@ -3,11 +3,11 @@
 <div class="container">
     <div class="row justify-content-between align-items-center">
         <div class="col-lg-6">
-            <h5>Posts Management</h5>
+            <h5>News Management</h5>
         </div>
         <div class="col-lg-2">
             <a href="{{ route('create_post') }}">
-                <button class="btn-add-assets" data-bs-toggle="modal" data-bs-target="#addModal">Create Post</button>
+                <button class="btn-add-assets" data-bs-toggle="modal" data-bs-target="#addModal">Create a news</button>
             </a>
         </div>
     </div>

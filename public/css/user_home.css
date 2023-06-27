@@ -11,7 +11,9 @@
     margin-bottom: 10px;
     border-radius: 10px;
 }
-
+.news-card a {
+    color: #0E0E23;
+}
 .news-card .images img {
   
     width: 100%;
@@ -68,3 +70,25 @@
     background-color:  var(--btnBg);
 }
 
+/* comments card */
+
+.comment-card
+{
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding: 20px;
+}
+.comment-card .header{
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+
+}
+
+.comment-card .header img{
+    margin-right: 10px;
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+}

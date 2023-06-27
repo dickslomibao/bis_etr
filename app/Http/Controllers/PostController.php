@@ -7,6 +7,7 @@ use App\Models\Services;
 use DateTime;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
@@ -31,21 +32,21 @@ class PostController extends Controller
     public function create()
     {
 
-        Services::create(
-            [
-                'service_name' => 'Certificate of indigency',
-            ]
-        );
-        Services::create(
-            [
-                'service_name' => 'Barangay Permit',
-            ]
-        );
-        Services::create(
-            [
-                'service_name' => 'Barangay Certificate',
-            ]
-        );
+        // Services::create(
+        //     [
+        //         'service_name' => 'Certificate of indigency',
+        //     ]
+        // );
+        // Services::create(
+        //     [
+        //         'service_name' => 'Barangay Permit',
+        //     ]
+        // );
+        // Services::create(
+        //     [
+        //         'service_name' => 'Barangay Certificate',
+        //     ]
+        // );
         return view('admin.post.create_post');
     }
 
@@ -64,6 +65,7 @@ class PostController extends Controller
                 'type' => $request->input('type'),
                 'content' => $request->input('content'),
                 'status' => $request->input('status'),
+                'slug' => Str::slug($request->input('title'))
             ];
             if (strval($request->input('status')) == "1") {
                 $data['date_posted'] = now();
@@ -122,6 +124,7 @@ class PostController extends Controller
             $post->thumbnail = $request->input('thumbnail');
             $post->content = $request->input('content');
             $post->status = $request->input('status');
+            $post->slug = Str::slug($request->input('title'));
             $post->save();
             return json_encode([
                 'status' => 200,

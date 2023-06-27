@@ -3,7 +3,7 @@
 <div class="container">
     <div class="row justify-content-between align-items-center">
         <div class="col-12">
-            <h5>Edit Post</h5>
+            <h5>Edit News</h5>
         </div>
 
     </div>

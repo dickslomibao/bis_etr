@@ -13,16 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('blotters', function (Blueprint $table) {
+        Schema::create('certificates', function (Blueprint $table) {
             $table->id();
-            $table->string('complainant_name');
-            $table->string('respondent_name');
-            $table->text('victims');
-            $table->text('location');
-            $table->dateTime('date');
-            $table->string('type');
-            $table->text('about');
-            $table->smallInteger('status')->default('1');
             $table->timestamps();
         });
     }
@@ -34,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('blotters');
+        Schema::dropIfExists('certificates');
     }
 };
