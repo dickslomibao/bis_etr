@@ -58,9 +58,12 @@
                         <a class="nav-link" href="#">Activities</a>
                     </li>
                     @auth
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('myrequest') }}">My request</a>
-                        </li>
+                        @if (Auth::user()->type != 1)
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('myrequest') }}">My request</a>
+                            </li>
+                        @endif
+
                     @endauth
                 </ul>
             </div>
@@ -82,8 +85,10 @@
                             {{ Chatify::countAllUnseenMessages() }}+
                         </span>
                     </a>
-                    <button class="btn btn-sm btn-outline-secondary make-request-btn" type="button"
-                        data-bs-toggle="modal" data-bs-target="#exampleModal">Make Request</button>
+                    @if (Auth::user()->type != 1)
+                        <button class="btn btn-sm btn-outline-secondary make-request-btn" type="button"
+                            data-bs-toggle="modal" data-bs-target="#exampleModal">Make Request</button>
+                    @endif
                 @else
                     <a href="/login"><button class="btn btn-sm btn-outline-secondary" type="button">Login</button></a>
                     <button class="btn btn-sm btn-outline-secondary" type="button">Register</button>

@@ -7,6 +7,9 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\users\HomeController;
 use App\Http\Controllers\Admin\RequestController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\BarangayPositionController;
+use App\Http\Controllers\BlotterController;
+use App\Http\Controllers\OfficialsController;
 use App\Http\Controllers\Users\MyRequestController;
 use Illuminate\Support\Facades\Route;
 
@@ -32,19 +35,17 @@ Route::get('/ss', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-
-
 Route::controller(HomeController::class)->group(function () {
-    Route::get('/','index')->name('users.home');
+    Route::get('/', 'index')->name('users.home');
     Route::POST('/users/getPost', 'getPost')->name('users.getpost');
     Route::POST('/users/getPostImages', 'getPostImages')->name('users.getPostImages');
 });
+Route::post('/convertdate', [NotificationController::class, 'timeForHumans'])->name('convert.date');
 
-Route::post('/convertdate', [NotificationController::class,'timeForHumans'])->name('convert.date');
 
 Route::middleware('auth')->group(function () {
 
-    Route::post('/users/make_request',[HomeController::class, 'index'])->name('users.make.request');
+    Route::post('/users/make_request', [HomeController::class, 'index'])->name('users.make.request');
     Route::controller(MyRequestController::class)->group(function () {
         Route::get('/users/myrequest/{request_id?}/{notification_id?}', 'index')->name('myrequest');
     });
@@ -52,6 +53,22 @@ Route::middleware('auth')->group(function () {
     Route::controller(AssetsController::class)->group(function () {
         Route::get('/admin/assets/', 'index')->name('assets');
         Route::post('/admin/assets/store', 'store')->name('assets.store');
+    });
+    
+    Route::controller(OfficialsController::class)->group(function () {
+        Route::get('/admin/officials/', 'index')->name('officials.index');
+        Route::get('/admin/officials/create', 'create')->name('officials.create');
+        Route::POST('/admin/officials/store', 'store')->name('officials.store');
+        Route::get('/admin/officials/{id}/edit', 'show')->name('officials.edit');
+        Route::POST('/admin/officials/update/{official}', 'update')->name('officials.update');
+    });
+
+    Route::controller(BlotterController::class)->group(function () {
+        Route::get('/admin/blotter/', 'index')->name('blotter.index');
+        Route::get('/admin/blotter/create', 'create')->name('blotter.create');
+        Route::POST('/admin/blotter/store', 'store')->name('blotter.store');
+        Route::get('/admin/blotter/{id}/edit', 'show')->name('blotter.edit');
+        Route::POST('/admin/blotter/update/{official}', 'update')->name('blotter.update');
     });
 
     Route::controller(NewsfeedController::class)->group(function () {
@@ -70,6 +87,25 @@ Route::middleware('auth')->group(function () {
     Route::controller(RequestController::class)->group(function () {
         Route::get('/admin/request/{request_id?}/{notification_id?}', 'index')->name('request');
     });
+
+    Route::get('admin/barangay_positions', [BarangayPositionController::class, 'index'])
+        ->name('barangay_positions.index');
+
+    Route::get('admin/barangay_positions/create', [BarangayPositionController::class, 'create'])
+        ->name('barangay_positions.create');
+
+    Route::post('admin/barangay_positions', [BarangayPositionController::class, 'store'])
+        ->name('barangay_positions.store');
+
+    Route::get('admin/barangay_positions/{barangayPosition}/edit', [BarangayPositionController::class, 'edit'])
+        ->name('barangay_positions.edit');
+
+    Route::put('admin/barangay_positions/{barangayPosition}', [BarangayPositionController::class, 'update'])
+        ->name('barangay_positions.update');
+
+    Route::delete('admin/barangay_positions/{barangayPosition}', [BarangayPositionController::class, 'destroy'])
+        ->name('barangay_positions.destroy');
+
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

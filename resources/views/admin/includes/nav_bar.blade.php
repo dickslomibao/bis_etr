@@ -53,12 +53,23 @@
         <p>Management</p>
         <ul>
             <li>
-                <div class="">
+                <div class="{{ $active == 'official' ? 'active' : '' }}">
                     <div class="top-curve"></div>
                     <div class="item">
 
-                        <a href="">
+                        <a href="{{route('officials.index')}}">
                             <div><i class="fa-solid fa-users"></i></div> Officials
+                        </a>
+                    </div>
+                    <div class="bottom-curve"></div>
+                </div>
+            </li>
+            <li>
+                <div class="{{ $active == 'position' ? 'active' : '' }}">
+                    <div class="top-curve"></div>
+                    <div class="item">
+                        <a href="{{ route('barangay_positions.index') }}">
+                            <div><i class="fa-solid fa-newspaper"></i></div>Positions
                         </a>
                     </div>
                     <div class="bottom-curve"></div>
@@ -108,7 +119,7 @@
                     <div class="bottom-curve"></div>
                 </div>
             </li>
-            <li>
+            {{-- <li>
                 <div class="">
                     <div class="top-curve"></div>
                     <div class="item">
@@ -118,13 +129,13 @@
                     </div>
                     <div class="bottom-curve"></div>
                 </div>
-            </li>
+            </li> --}}
             <li>
-                <div class="">
+                <div class="{{ $active == 'blotters' ? 'active' : '' }}">
                     <div class="top-curve"></div>
                     <div class="item">
-                        <a href="">
-                            <div><i class="fa-solid fa-users-slash"></i></div>Blotters
+                        <a href="{{route('blotter.index')}}">
+                            <div><i class="fa-solid fa-users-slash"></i></div>Blotter
                         </a>
                     </div>
                     <div class="bottom-curve"></div>

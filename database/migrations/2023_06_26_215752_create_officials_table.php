@@ -11,23 +11,19 @@ return new class extends Migration
      *
      * @return void
      */
-
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->string('name');
+        Schema::create('officials', function (Blueprint $table) {
+            $table->id();
             $table->string('firstname');
             $table->string('middlename');
             $table->string('lastname');
-            $table->string('gender');
-            $table->date('birthdate');
-            $table->smallInteger('type')->default(0);
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
+            $table->unsignedBigInteger('position');
+            $table->dateTime('term_start');
+            $table->dateTime('term_end');
+            $table->smallInteger('status')->default(1);
             $table->timestamps();
+            $table->foreign('position')->references('id')->on('barangay_positions');    
         });
     }
 
@@ -38,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('officials');
     }
 };

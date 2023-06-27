@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Notification;
+use App\Models\BarangayPosition;
 use App\Models\Services as ModelsServices;
 use Carbon\Carbon;
 
@@ -11,7 +12,10 @@ class Helper
   {
     return ModelsServices::get();
   }
-
+  public static function getPositions()
+  {
+    return BarangayPosition::get();
+  }
   public static function timeForHumans($date)
   {
     $result = Carbon::parse($date)->diffForHumans();
