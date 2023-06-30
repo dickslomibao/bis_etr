@@ -32,21 +32,6 @@ class PostController extends Controller
     public function create()
     {
 
-        // Services::create(
-        //     [
-        //         'service_name' => 'Certificate of indigency',
-        //     ]
-        // );
-        // Services::create(
-        //     [
-        //         'service_name' => 'Barangay Permit',
-        //     ]
-        // );
-        // Services::create(
-        //     [
-        //         'service_name' => 'Barangay Certificate',
-        //     ]
-        // );
         return view('admin.post.create_post');
     }
 
@@ -62,7 +47,6 @@ class PostController extends Controller
             $data =  [
                 'title' => $request->input('title'),
                 'thumbnail' => $request->input('thumbnail'),
-                'type' => $request->input('type'),
                 'content' => $request->input('content'),
                 'status' => $request->input('status'),
                 'slug' => Str::slug($request->input('title'))
@@ -107,7 +91,28 @@ class PostController extends Controller
             'data' => $result,
         ]);
     }
+    public function toggle($id)
+    {
+        $msg ="";
+        $result = Post::findOrFail($id);
 
+        if ($result->status == 0) {
+            $result->status = 1;
+            $msg = "Successfully Published";
+        } else {
+            $result->status = 0;
+            $msg = "Successfully Unpublished";
+        }
+        $result->save();
+        return redirect()->back()->with('message', $msg);
+    }
+    public function delete($id)
+    {
+        $result = Post::findOrFail($id);
+        $result->delete();
+
+        return redirect()->back()->with('message', 'Deleted successfully');
+    }
     /**
      * Update the specified resource in storage.
      *
@@ -120,7 +125,6 @@ class PostController extends Controller
         try {
             $post = Post::find($request->input('id'));
             $post->title = $request->input('title');
-            $post->type = $request->input('type');
             $post->thumbnail = $request->input('thumbnail');
             $post->content = $request->input('content');
             $post->status = $request->input('status');

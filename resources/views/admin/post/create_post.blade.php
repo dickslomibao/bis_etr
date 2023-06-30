@@ -15,32 +15,21 @@
         <form action="" method="post" id="add_form">
             <input type="hidden" id="token" name="_token" value="{{ csrf_token() }}" />
             <div class="row">
-                <div class="col-lg-4">
+                <div class="col-lg-6">
                     <div class="mb-3">
                         <label for="title" class="form-label">Title:</label>
                         <input required type="text" name="title" class="form-control" id="title"
                             placeholder="Title..." />
                     </div>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-6">
                     <div class="mb-3">
                         <label for="thumbnail" class="form-label">Thumbnail:</label>
                         <input required type="text" name="thumbnail" class="form-control" id="thumbnail"
                             placeholder="Paste your thumbnail link here....." />
                     </div>
                 </div>
-                <div class="col-lg-4">
-                    <div class="mb-3">
-                        <label for="image-title" class="form-label">Type:</label>
-                        <select class="form-select" id="type" name="type" aria-label="Default select example">
-                            <option selected>Select type</option>
-                            <option value="1">News</option>
-                            <option value="2">Articles</option>
-                            <option value="3">Announcement</option>
-                            <option value="4">Activites</option>
-                        </select>
-                    </div>
-                </div>
+                
             </div>
             <div class="col-12">
                 <label for="image-title" class="form-label">Content:</label>
@@ -103,7 +92,6 @@
         $token = $("#token").val();
         $title = $("#title").val();
         $thumbnail = $("#thumbnail").val();
-        $type = $("#type").val();
         $content = $('#summernote').summernote('code');
         $('#loader').css('display', 'flex');
         await $.ajax({
@@ -113,7 +101,6 @@
                 '_token': $token,
                 'title': $title,
                 'thumbnail': $thumbnail,
-                'type': $type,
                 'content': $content,
                 'status': status,
             },

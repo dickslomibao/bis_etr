@@ -1,4 +1,9 @@
 @include('admin.includes.nav_bar', ['active' => 'officials', 'title' => 'Officials Management'])
+<style>
+    label{
+        margin-bottom: 5px
+    }
+</style>
 <div class="container">
     <div class="row justify-content-between align-items-center">
         <div class="col-lg-6">
@@ -68,7 +73,7 @@
                         </div>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-success" style="float:right">Add Official</button>
             </form>
         </div>
     </div>

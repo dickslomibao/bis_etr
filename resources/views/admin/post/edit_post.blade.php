@@ -14,33 +14,21 @@
         <form action="" method="post" id="add_form">
             <input type="hidden" id="token" name="_token" value="{{ csrf_token() }}" />
             <div class="row">
-                <div class="col-lg-4">
+                <div class="col-lg-6">
                     <div class="mb-3">
                         <label for="title" class="form-label">Title:</label>
                         <input value="{{ $data['title'] }}" required type="text" name="title" class="form-control"
                             id="title" placeholder="Title..." />
                     </div>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-6">
                     <div class="mb-3">
                         <label for="thumbnail" class="form-label">Thumbnail:</label>
                         <input value="{{ $data['thumbnail'] }}" required type="text" name="thumbnail"
                             class="form-control" id="thumbnail" placeholder="Paste your thumbnail link here....." />
                     </div>
                 </div>
-                <div class="col-lg-4">
-                    <div class="mb-3">
-                        <label for="image-title" class="form-label">Type:</label>
-                        <select class="form-select" id="type" name="type" aria-label="Default select example">
-                            <option>Select type</option>
-                            <option value="1" {{ $data['type'] == '1' ? 'selected' : '' }}>News</option>
-                            <option value="2" {{ $data['type'] == '2' ? 'selected' : '' }}>Articles</option>
-                            <option value="3" {{ $data['type'] == '3' ? 'selected' : '' }}>Announcement
-                            </option>
-                            <option value="4"{{ $data['type'] == '4' ? 'selected' : '' }}>Activites</option>
-                        </select>
-                    </div>
-                </div>
+               
             </div>
             <div class="col-12">
                 <label for="image-title" class="form-label">Content:</label>

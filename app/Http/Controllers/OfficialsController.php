@@ -56,7 +56,19 @@ class OfficialsController extends Controller
 
         return redirect()->route('officials.index')->with('message','Added Successfully');
     }
-
+    public function toggle($id){
+        $official = Official::findOrFail($id);
+        $msg = "";
+        if($official->status == 0){
+            $official->status = 1;
+            $msg = 'Successfully set to active';
+        }else{
+            $official->status = 0;
+            $msg = 'Successfully set to inactive';
+        }
+        $official->save();
+        return redirect()->back()->with('message',$msg);
+    }
     /**
      * Display the specified resource.
      *

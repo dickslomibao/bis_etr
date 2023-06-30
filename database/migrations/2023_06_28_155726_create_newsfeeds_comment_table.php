@@ -13,10 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('certificates', function (Blueprint $table) {
+        Schema::create('newsfeeds_comment', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->longText('content');
+            $table->uuid('user_id');
+            $table->uuid('newsfeeds_id');
+            $table->longText('comments');
+            $table->foreign('newsfeeds_id')->references('id')->on('newsfeeds')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -28,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('certificates');
+        Schema::dropIfExists('newsfeeds_comment');
     }
 };

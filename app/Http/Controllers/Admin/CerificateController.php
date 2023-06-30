@@ -4,8 +4,9 @@ namespace App\Http\Controllers\admin;
 
 use PDF;
 use App\Http\Controllers\Controller;
+use App\Models\Certifacate;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Str;
 class CerificateController extends Controller
 {
     /**
@@ -15,15 +16,21 @@ class CerificateController extends Controller
      */
     public function index()
     {
-        return view('admin.certificates.index');
+        return view('admin.certificates.index', [
+            'certificates' => Certifacate::get(),
+        ]);
     }
-
-    public function print()
+    public function indigency(Request $request)
     {
-      
-        $pdf = PDF::loadView('admin.certificates.print', []);
+    
+        $pdf = PDF::loadView('admin.certificates.indigency', [
+            'r' => $request->input('r'),
+            'p' => $request->input('p'),
+            'd' => $request->input('d'),
+            'type' => $request->input('type'),
+        ]);
         $pdf->setOption(['dpi' => 150, 'defaultFont' => 'times-new-roman']);
-        return $pdf->download('sample.pdf');
+        return $pdf->download(Str::slug($request->input('type')).now().'.pdf');
     }
     /**
      * Show the form for creating a new resource.
@@ -43,7 +50,14 @@ class CerificateController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Certifacate::create([
+            'title' => $request->input('title'),
+            'content' => $request->input('content'),
+        ]);
+
+        return json_encode([
+            'code' => 200,
+        ]);
     }
 
     /**
@@ -65,7 +79,9 @@ class CerificateController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('admin.certificates.edit', [
+            'certificate' => Certifacate::findOrFail($id),
+        ]);
     }
 
     /**
@@ -75,9 +91,16 @@ class CerificateController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $certificate = Certifacate::findOrFail($request->input('id'));
+        $certificate->title = $request->input('title');
+        $certificate->content = $request->input('content');
+        $certificate->save();
+
+        return json_encode([
+            'code' => 200,
+        ]);
     }
 
     /**

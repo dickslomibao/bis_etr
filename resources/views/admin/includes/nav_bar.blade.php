@@ -90,7 +90,7 @@
                     <div class="top-curve"></div>
                     <div class="item">
                         <a href="{{ route('newsfeed') }}">
-                            <div><i class="fa-solid fa-newspaper"></i></div>Newsfeed
+                            <div><i class="fa-solid fa-database"></i></div>Newsfeed
                         </a>
                     </div>
                     <div class="bottom-curve"></div>
@@ -101,7 +101,7 @@
                     <div class="top-curve"></div>
                     <div class="item">
                         <a href="{{ route('request') }}">
-                            <div><i class="fa-solid fa-newspaper"></i></div>Requests
+                            <div><i class="fa-solid fa-list-check"></i></div>Requests
                         </a>
                     </div>
                     <div class="bottom-curve"></div>
@@ -112,7 +112,7 @@
                     <div class="top-curve"></div>
                     <div class="item">
                         <a href="{{route('certificate.index')}}">
-                            <div><i class="fa-solid fa-certificate"></i></div>Certifactes
+                            <div><i class="fa-solid fa-certificate"></i></div>Certificates
                         </a>
                     </div>
                     <div class="bottom-curve"></div>
@@ -206,7 +206,7 @@
                                 </span>
                             </a>
 
-                            <a class="btn btn-sm btn-outline-secondary"
+                            <a role="button" id="logout" class="btn btn-sm btn-outline-secondary"
                                 style="padding:6px 20px;margin: 0 0 0 20px;background:var(--btnBg);border-radius:10px;color:white">Logout</a>
                         </div>
                     </div>

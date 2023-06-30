@@ -4,6 +4,9 @@
     <div class="row justify-content-between align-items-center">
         <div class="col-lg-6">
             <h5>News Management</h5>
+            @if (session('message'))
+                <h6 style="margin-top: 20px;color:green">{{ session('message') }}</h6>
+            @endif
         </div>
         <div class="col-lg-2">
             <a href="{{ route('create_post') }}">
@@ -20,40 +23,19 @@
                 <thead>
                     <th>Title</th>
                     <th>Status</th>
-                    <th>Type</th>
                     <th>Date created</th>
                     <th width="140">Actions</th>
                 </thead>
                 <tbody>
                     @foreach ($posts as $post)
                         <tr>
-                            <td>{{  $post['title'] }}</td>
+                            <td>{{ Str::limit($post['title'], 50) }}</td>
                             <td>{{ intval($post['status']) === 0 ? 'Unpublished' : 'Published' }}</td>
-                            <td>
-                                @switch(intval($post['type']))
-                                    @case(1)
-                                        {{ 'News' }}
-                                    @break
 
-                                    @case(2)
-                                        {{ 'Articles' }}
-                                    @break
-
-                                    @case(3)
-                                        {{ 'Announcement' }}
-                                    @break
-
-                                    @case(4)
-                                        {{ 'Activites' }}
-                                    @break
-
-                                    @default
-                                @endswitch
-                                </th>
                             <td>{{ $post['created_at'] }}</td>
 
                             <td style="display: flex;align-items:center">
-                                <a href="" class="preview-post">Preview</a>
+                                <a href="/newsview/{{ $post->slug }}" class="preview-post">Preview</a>
 
                                 <div class="dropdown">
                                     <a href="" class="" style="color:#212529" role="button"
@@ -62,12 +44,18 @@
 
                                     <ul class="dropdown-menu">
                                         <li><a class="dropdown-item"
-                                                href="#">{{ intval($post['status']) === 0 ? 'Published' : 'Unpublished' }}</a>
+                                                href="{{ route('post.toggle', [
+                                                    'id' => $post->id,
+                                                ]) }}">{{ intval($post['status']) === 0 ? 'Published' : 'Unpublished' }}</a>
                                         </li>
                                         <li><a class="dropdown-item"
                                                 href="{{ route('form.edit.post', ['id' => $post['id']]) }}">Edit</a>
                                         </li>
-                                        <li><a class="dropdown-item" href="#">Delete</a></li>
+                                        <li><a class="dropdown-item" onclick='return confirm("Are you sure?")'
+                                                href="{{ route('post.delete', [
+                                                    'id' => $post->id,
+                                                ]) }}">Delete</a>
+                                        </li>
                                     </ul>
                                 </div>
                             </td>

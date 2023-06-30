@@ -30,6 +30,25 @@ class BlotterController extends Controller
         return view('admin.blotters.create');
     }
 
+    public function settled($id)
+    {
+
+        $blotter = Blotter::findorFail($id);
+        $blotter->status = 2;
+        $blotter->save();
+        return redirect()->back()->with('message', 'Successfully updated to settled');
+    }
+    public function delete($id)
+    {
+
+        $blotter = Blotter::findorFail($id);
+
+        if ($blotter->status != 1) {
+            return abort(404);
+        }
+        $blotter->delete();
+        return redirect()->back()->with('message', 'Successfully Deleted');
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -61,6 +80,10 @@ class BlotterController extends Controller
      */
     public function show($id)
     {
+        $blotter = Blotter::findorFail($id);
+        return view('admin.blotters.show', [
+            'blotter' => $blotter,
+        ]);
     }
 
     /**
@@ -71,8 +94,12 @@ class BlotterController extends Controller
      */
     public function edit($id)
     {
+        $blotter = Blotter::findOrFail($id);
+        if ($blotter->status != 1) {
+            return abort(404);
+        }
         return view('admin.blotters.edit', [
-            'blotter' => Blotter::findOrFail($id),
+            'blotter' => $blotter,
         ]);
     }
 
@@ -100,7 +127,7 @@ class BlotterController extends Controller
         return redirect()->route('blotter.index')->with('message', 'Updated Successfully');
     }
 
-    
+
     /**
      * Remove the specified resource from storage.
      *

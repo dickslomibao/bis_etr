@@ -16,7 +16,9 @@ class NewsfeedController extends Controller
      */
     public function index()
     {
-        return view('admin.newsfeed.index');
+        return view('admin.newsfeed.index', [
+            'newsfeed' => NewsfeedsModel::get(),
+        ]);
     }
 
     /**
@@ -26,7 +28,13 @@ class NewsfeedController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.newsfeed.create');
+    }
+    public function delete($id)
+    {
+        $feed = NewsfeedsModel::findOrFail($id);
+        $feed->delete();
+        return redirect()->back()->with('message', 'Successfully deleted');
     }
 
     /**
@@ -40,17 +48,20 @@ class NewsfeedController extends Controller
         $newsfeed = NewsfeedsModel::create(
             [
                 'content' => $request->input('content'),
+                'type' => $request->input('type'),
             ]
         );
         $images = $request->file('images');
-        foreach ($images as $image) {
-            $path = substr($image->storePublicly('public/newsfeeds'), 17);
-            NewsfeedsImagesModel::create(
-                [
-                    'path' => $path,
-                    'newsfeed_id' =>  $newsfeed->id,
-                ]
-            );
+        if ($images) {
+            foreach ($images as $image) {
+                $path = substr($image->storePublicly('public/newsfeeds'), 17);
+                NewsfeedsImagesModel::create(
+                    [
+                        'path' => $path,
+                        'newsfeed_id' =>  $newsfeed->id,
+                    ]
+                );
+            }
         }
         return redirect()->route('newsfeed');
     }
@@ -63,9 +74,18 @@ class NewsfeedController extends Controller
      */
     public function show($id)
     {
-        //
+        return view('admin.newsfeed.edit', [
+            'newsfeed' => NewsfeedsModel::findOrFail($id),
+            'images' => NewsfeedsImagesModel::where('newsfeed_id', '=', $id)->get()
+        ]);
     }
-
+    public function deleteImages($id)
+    {
+        $image = NewsfeedsImagesModel::findOrFail($id);
+        unlink('storage/newsfeeds/' . $image->path);
+        $image->delete();
+        return redirect()->back()->with('message', 'Removed successfully');
+    }
     /**
      * Show the form for editing the specified resource.
      *
@@ -84,9 +104,27 @@ class NewsfeedController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, NewsfeedsModel $feed)
     {
-        //
+
+        // dd($feed);
+        $feed->update([
+            'content' => $request->input('content'),
+            'type' => $request->input('type'),
+        ]);
+        $images = $request->file('images');
+        if ($images) {
+            foreach ($images as $image) {
+                $path = substr($image->storePublicly('public/newsfeeds'), 17);
+                NewsfeedsImagesModel::create(
+                    [
+                        'path' => $path,
+                        'newsfeed_id' =>  $feed->id,
+                    ]
+                );
+            }
+        }
+        return redirect()->route('newsfeed')->with('message', 'Updated successfully');
     }
 
     /**

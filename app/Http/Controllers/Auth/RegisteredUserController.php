@@ -32,23 +32,22 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'firstname' => ['required', 'string', 'max:255'],
-            'middlename' => ['required', 'string', 'max:255'],
             'lastname' => ['required', 'string', 'max:255'],
             'gender' => ['required', 'string', 'max:6'],
-            'birthdate' => ['required','date'],
+            'birthdate' => ['required', 'date'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
         $path = substr($request->file('file')->storePublicly('public/users-avatar'), 20);
         $user = User::create([
-            'name' => $request->firstname . " " . $request->middlename . " " . $request->lastname,
+            'name' => $request->firstname . " " . $request->lastname,
             'firstname' => $request->firstname,
-            'middlename' => $request->middlename,
+            'middlename' => $request->middlename == null ? "" : $request->middlename,
             'lastname' => $request->lastname,
             'birthdate' => $request->birthdate,
             'gender' => $request->gender,
             'email' => $request->email,
-            'avatar'=>$path,
+            'avatar' => $path,
             'password' => Hash::make($request->password),
         ]);
 
@@ -56,6 +55,10 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(RouteServiceProvider::HOME);
+        if (Auth::user()->type == 0) {
+            return redirect('/');
+        } else {
+            return redirect()->route('/admin');
+        }
     }
 }

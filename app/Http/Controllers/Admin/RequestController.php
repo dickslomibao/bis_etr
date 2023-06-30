@@ -18,7 +18,7 @@ class RequestController extends Controller
     {
         Helper::seenNotification($notification_id);
       
-        $requests = Request_list::select('request_list.id', 'request_list.owner_id', 'request_list.status','request_list.created_at', "services.service_name", 'users.name')
+        $requests = Request_list::select('request_list.id', 'request_list.owner_id','request_list.purpose', 'request_list.status','request_list.created_at', "services.service_name", 'users.name')
             ->join('users', 'users.id', '=', 'request_list.owner_id')
             ->join('services', 'services.id', '=', 'request_list.service_id')->get();
         return view('admin.request.index', [

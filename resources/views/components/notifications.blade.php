@@ -1,7 +1,5 @@
 @auth
 
-
-
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
         <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="offcanvasRightLabel">Notifications</h5>
@@ -92,3 +90,11 @@
         }
     </script>
 @endauth
+<form action="{{ route('logout') }}" method="post" id="logout-form">
+    @csrf
+</form>
+<script>
+    $("#logout").click(function(e) {
+        $('#logout-form').submit();
+    });
+</script>

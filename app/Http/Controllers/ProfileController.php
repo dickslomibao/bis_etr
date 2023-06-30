@@ -7,13 +7,23 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Validation\Rule;
 use Illuminate\View\View;
+use App\Models\User;
 
 class ProfileController extends Controller
 {
     /**
      * Display the user's profile form.
      */
+    public function index()
+    {
+        return view('users.profile');
+    }
+    public function show()
+    {
+        return view('users.update');
+    }
     public function edit(Request $request): View
     {
         return view('profile.edit', [
@@ -24,17 +34,28 @@ class ProfileController extends Controller
     /**
      * Update the user's profile information.
      */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function update(Request $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        $user = $request->user(); // Get the authenticated user
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
-        }
+        // Validate the input data
+        $validatedData = $request->validate([
+            'firstname' => ['required', 'string', 'max:255'],
+            'middlename' => ['required', 'string', 'max:255'],
+            'lastname' => ['required', 'string', 'max:255'],
+            'gender' => ['required', 'string', 'max:6'],
+            'birthdate' => ['required', 'date'],
+            'email' => [
+                'email',
+                'max:255',
+                Rule::unique(User::class)->ignore($user->id)
+            ],
+        ]);
 
-        $request->user()->save();
+        // Update the user's personal information
+        $user->update($validatedData);
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        return redirect()->route('profile');
     }
 
     /**

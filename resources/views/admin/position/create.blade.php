@@ -29,11 +29,11 @@
 
             <form action="{{ route('barangay_positions.store') }}" method="POST">
                 @csrf
-                <div>
+                <div class="mb-3">
                     <label for="name">Name</label>
-                    <input type="text" name="name" id="name" value="{{ old('name') }}" required>
+                    <input type="text" class="form-control" name="name" id="name" value="{{ old('name') }}" required>
                 </div>
-                <button type="submit">Create</button>
+                <button class="btn btn-success" type="submit">Add position</button>
             </form>
         </div>
     </div>

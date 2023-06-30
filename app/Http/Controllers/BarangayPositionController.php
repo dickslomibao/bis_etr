@@ -67,7 +67,9 @@ class BarangayPositionController extends Controller
      */
     public function edit($id)
     {
-        return view('admin.position.edit', compact('barangayPosition'));
+        return view('admin.position.edit',[
+            'barangayPosition'=>BarangayPosition::findOrFail($id),
+        ]);
 
     }
 

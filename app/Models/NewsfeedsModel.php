@@ -13,5 +13,6 @@ class NewsfeedsModel extends Model
     protected $table = "newsfeeds";
     protected $fillable = [
         'content',
+        'type',
     ];
 }

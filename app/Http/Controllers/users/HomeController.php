@@ -10,25 +10,50 @@ use Illuminate\Http\Request;
 use  App\Models\Post;
 use App\Models\Request_list;
 use App\Models\Services;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
     public function index()
     {
-        $latest_news = Post::where([
-            ['status', '1'],
-            ['type', '1'],
-        ])->orderBy('date_posted')->get();
+        $latest_news = Post::where('status',"=",1)->orderBy('date_posted')->limit(5)->get();
 
         return view('users.index', [
             'latest_news' => $latest_news
         ]);
     }
-
+    public function news()
+    {
+        return view('users.news', [
+            'news' =>  Post::where('status',"=",1)->orderBy('date_posted')->get()
+        ]);
+    }
+    public  function annoucement(){
+        $latest_news = Post::where('status',"=",1)->orderBy('date_posted')->limit(5)->get();
+        return view('users.announcement',[
+            'latest_news' => $latest_news
+        ]);
+    }
+    public  function activities(){
+        $latest_news = Post::where('status',"=",1)->orderBy('date_posted')->limit(5)->get();
+        return view('users.activities',[
+            'latest_news' => $latest_news
+        ]);
+    }
     public function getPost(Request $request)
     {
         return json_encode(NewsfeedsModel::limit($request->input('count'))
+            ->orderByDesc('created_at')
+            ->get());
+    }
+    public function getAnnouncement(Request $request){
+        return json_encode(NewsfeedsModel::where('type',"=","Announcement")->limit($request->input('count'))
+            ->orderByDesc('created_at')
+            ->get());
+    }
+    public function getActivities(Request $request){
+        return json_encode(NewsfeedsModel::where('type',"=","Activities")->limit($request->input('count'))
             ->orderByDesc('created_at')
             ->get());
     }
@@ -40,6 +65,7 @@ class HomeController extends Controller
 
     public function create(Request $request)
     {
+
         $request = Request_list::create(
             [
                 'owner_id' => Auth::user()->id,
@@ -50,7 +76,7 @@ class HomeController extends Controller
         );
         $data = [
             'from_id' =>  Auth::user()->id,
-            'to_id' => '996223fc-c140-43ba-81e4-888930d431aa',
+            'to_id' => User::where('type', "=", '1')->get()->first()->id,
             'seen' => 0,
             'redirect_link' => "/users/myrequest/",
         ];
@@ -63,8 +89,6 @@ class HomeController extends Controller
         $notification->redirect_link = "/admin/request/" . $request->id . "/" . $notification->id;
         $notification->save();
 
-        return redirect()->route('users.home');
+        return redirect()->route('myrequest');
     }
-
-    
 }

@@ -22,7 +22,7 @@
                 <thead>
                     <tr>
                         <th>Name</th>
-                        <th>Action</th>
+                        <th style="width: 100px">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -30,13 +30,13 @@
                         <tr>
                             <td>{{ $position->name }}</td>
                             <td style="display:flex">
-                                <a href="{{ route('barangay_positions.edit', $position) }}">Edit</a>
+                                <a href="{{ route('barangay_positions.edit', $position) }}" class="btn btn-success" >Edit</a>
 
-                                <form action="{{ route('barangay_positions.destroy', $position) }}" method="POST">
+                                {{-- <form action="{{ route('barangay_positions.destroy', $position) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit">Delete</button>
-                                </form>
+                                </form> --}}
                             </td>
                         </tr>
                     @endforeach

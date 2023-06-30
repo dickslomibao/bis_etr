@@ -9,6 +9,7 @@
                 <thead>
                     <th>Name</th>
                     <th>Request</th>
+                    <th>Purpose</th>
                     <th>Status</th>
                     <th>Date Created</th>
                     <th>Actions</th>
@@ -21,6 +22,7 @@
                         <tr @if ($request_id == $request->id) style="background:rgba(0,0,0,.05)" @endif>
                             <td>{{ $request->name }}</td>
                             <td>{{ $request->service_name }}</td>
+                            <td>{{ $request->purpose }}</td>
                             <td>
                                 @switch(intval($request->status ))
                                     @case(0)
@@ -54,7 +56,7 @@
                             </pre> --}}
 
                             <td style="display: flex;align-items:center">
-                                <a href="" class="preview-post">More details</a>
+                                {{-- <a href="" class="preview-post">More details</a> --}}
 
                                 <div class="dropdown">
                                     <a href="" class="" style="color:#212529" role="button"
@@ -62,6 +64,9 @@
                                             class="rotate"></i></a>
 
                                     <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item"
+                                                href="/chatify/{{$request->owner_id}}">
+                                                Message</a></li>
                                         <li><a class="dropdown-item"
                                                 href="{{ route('admin.createNotifaction', ['user_id' => $request->owner_id, 'request_id' => $request->id, 'status' => 1]) }}">Notify
                                                 Processing</a></li>

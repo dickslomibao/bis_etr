@@ -54,4 +54,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Newscomment::class);
     }
+    
+    public function newsfeedComments()
+    {
+        return $this->hasMany(Newsfeedscomment::class);
+    }
 }

@@ -1,11 +1,12 @@
-@include('users.includes.nav_bar', ['active' => 'home', 'title' => 'Alitay Systems'])
+@include('users.includes.nav_bar', ['active' => 'announcement', 'title' => 'Announcement'])
 <div class="container" style="margin-top:20px">
     {{-- <h5 style="margin: 40px 0">Newsfeed</h5> --}}
+
 </div>
 <div class="container">
     <div class="row">
         <div class="col-lg-8" id="newsfeed_display">
-            <h5 style="margin: 20px 0 40px 0">Latest Announcement and activities</h5>
+            <h5 style="margin: 20px 0 40px 0">Announcement</h5>
         </div>
         <div class="col-lg-4">
             <h5 style="margin: 20px 0 40px 0">Latest news</h5>
@@ -19,8 +20,8 @@
 </div>
 @include('users.includes.footer')
 <script>
-    let  array = [];
     let limit = 5;
+    let array = [];
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -36,10 +37,9 @@
 
     getData(limit);
     async function getData(count) {
-        
         await $.ajax({
             type: 'POST',
-            url: '{{ route('users.getpost') }}',
+            url: '{{ route('users.annoucement') }}',
             data: {
                 'count': count,
             },
@@ -50,7 +50,9 @@
                     const newsfeed = newsfeeds[index];
                     if (!array.includes(newsfeed['id'])) {
                         array.push(newsfeed['id']);
+
                         let interval;
+
                         await $.post("{{ route('convert.date') }}", {
                                 'date': newsfeed['created_at']
                             },
@@ -70,23 +72,23 @@
                                 let includes = buildeImages(images);
 
                                 $('#newsfeed_display').append(`
-                            <a href="/postview/` + newsfeed['id'] + `" style="color:#000" target="_blank">
-                                    <div class="post-container" id="` + newsfeed['id'] + `">
-                                        <div class="post-header">
-                                            <div class="post-header-info">
-                                                <h3>Posted by Admin</h3>
-                                                <p>` + interval + ` - <span style="backgroud:forestgreen">` + newsfeed[
-                                    'type'] + `</span></p>
-                                            </div>
-                                        </div>
-                                        <pre class="post-content">` + newsfeed['content'] + `</pre>
-                                        <div class="row" style="row-gap: 25px;">
-                                            ` + includes + `
-                                        </div>
-                                    </div></a>`);
+        <a href="/postview/` + newsfeed['id'] + `" style="color:#000" target="_blank">
+                <div class="post-container" id="` + newsfeed['id'] + `">
+                    <div class="post-header">
+                        <div class="post-header-info">
+                            <h3>Posted by Admin</h3>
+                            <p>` + interval + `</p>
+                        </div>
+                    </div>
+                    <pre class="post-content">` + newsfeed['content'] + `</pre>
+                    <div class="row" style="row-gap: 25px;">
+                        ` + includes + `
+                    </div>
+                </div></a>`);
                             }
                         });
                     }
+
                 }
             }
         });

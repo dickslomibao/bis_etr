@@ -1,4 +1,4 @@
-@include('admin.includes.nav_bar', ['active' => 'officials', 'title' => 'Officials Management'])
+@include('admin.includes.nav_bar', ['active' => 'official', 'title' => 'Officials Management'])
 <div class="container">
     <div class="row justify-content-between align-items-center">
         <div class="col-lg-6">
@@ -49,7 +49,9 @@
                                                 'id' => $official->id,
                                             ]) }}">Edit</a>
                                     </li>
-                                    <li><a class="dropdown-item" href="#">Delete</a></li>
+                                    <li><a class="dropdown-item" href="{{route('officials.toggle',[
+                                        'id'=>$official->id,
+                                    ])}}">{{ $official->status== 1 ? "Set to inactive" :  "Set to actice"}}</a></li>
                                 </ul>
                             </div>
                         </center>

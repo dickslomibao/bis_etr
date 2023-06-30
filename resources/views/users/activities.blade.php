@@ -1,11 +1,12 @@
-@include('users.includes.nav_bar', ['active' => 'home', 'title' => 'Alitay Systems'])
+@include('users.includes.nav_bar', ['active' => 'activities', 'title' => 'Activities'])
 <div class="container" style="margin-top:20px">
     {{-- <h5 style="margin: 40px 0">Newsfeed</h5> --}}
+
 </div>
 <div class="container">
     <div class="row">
         <div class="col-lg-8" id="newsfeed_display">
-            <h5 style="margin: 20px 0 40px 0">Latest Announcement and activities</h5>
+            <h5 style="margin: 20px 0 40px 0">Activities</h5>
         </div>
         <div class="col-lg-4">
             <h5 style="margin: 20px 0 40px 0">Latest news</h5>
@@ -19,8 +20,8 @@
 </div>
 @include('users.includes.footer')
 <script>
-    let  array = [];
     let limit = 5;
+    let array = [];
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -36,10 +37,9 @@
 
     getData(limit);
     async function getData(count) {
-        
         await $.ajax({
             type: 'POST',
-            url: '{{ route('users.getpost') }}',
+            url: '{{ route('users.activities') }}',
             data: {
                 'count': count,
             },
@@ -51,6 +51,7 @@
                     if (!array.includes(newsfeed['id'])) {
                         array.push(newsfeed['id']);
                         let interval;
+
                         await $.post("{{ route('convert.date') }}", {
                                 'date': newsfeed['created_at']
                             },
@@ -75,8 +76,7 @@
                                         <div class="post-header">
                                             <div class="post-header-info">
                                                 <h3>Posted by Admin</h3>
-                                                <p>` + interval + ` - <span style="backgroud:forestgreen">` + newsfeed[
-                                    'type'] + `</span></p>
+                                                <p>` + interval + `</p>
                                             </div>
                                         </div>
                                         <pre class="post-content">` + newsfeed['content'] + `</pre>

@@ -41,6 +41,7 @@
                             @break
 
                             @case(2)
+                                Settled
                             @break
 
                             @default
@@ -55,13 +56,30 @@
                                     role="button" data-bs-toggle="dropdown" aria-expanded="false"><i
                                         class="fa-solid fa-gear"></i></a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="">View full details</a>
+                                    <li><a class="dropdown-item"
+                                            href="{{ route('blotter.show', [
+                                                'id' => $blotter->id,
+                                            ]) }}">View
+                                            full details</a>
                                     </li>
-                                    <li><a class="dropdown-item" href="{{route('blotter.edit',[
-                                        'id'=>$blotter->id
-                                    ])}}">Edit</a>
-                                    </li>
-                                    <li><a class="dropdown-item" href="#">Delete</a></li>
+                                    @if ($blotter->status == 1)
+                                        <li><a class="dropdown-item"
+                                                href="{{ route('blotter.edit', [
+                                                    'id' => $blotter->id,
+                                                ]) }}">Edit</a>
+                                        </li>
+                                        <li><a class="dropdown-item" onclick='return confirm("Are you sure?")'
+                                                href="{{ route('blotter.delete', [
+                                                    'id' => $blotter->id,
+                                                ]) }}">Delete</a>
+                                        </li>
+                                        {{-- <li><a class="dropdown-item" href="#">Delete</a></li> --}}
+                                        <li><a class="dropdown-item"
+                                                href="{{ route('blotter.settled', [
+                                                    'id' => $blotter->id,
+                                                ]) }}">Set
+                                                as settled</a></li>
+                                    @endif
                                 </ul>
                             </div>
                         </center>

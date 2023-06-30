@@ -47,8 +47,7 @@ class NewscommentController extends Controller
 
     public function getNewsComment(Request $request)
     {
-       
-    
+         
        return json_encode(
             Newscomment::where('news_id', "=", $request->id)->with('relation')->limit($request->limit)->get(),
         );

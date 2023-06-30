@@ -1,4 +1,4 @@
-@include('admin.includes.nav_bar', ['active' => 'blotters', 'title' => 'Blotters Management'])
+{{-- @include('admin.includes.nav_bar', ['active' => 'certificate', 'title' => 'Blotters Management'])
 <style>
     /* Custom CSS to remove table border in Summernote */
 </style>
@@ -13,14 +13,20 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12">
-            <form action="{{ route('certificate.store') }}" method="POST">
-                @csrf
+            <form action="{{ route('certificate.indigency') }}" method="POST">
+                <input type="hidden" id="token" name="_token" value="{{ csrf_token() }}" />
                 <div class="col-12">
-                    <label for="image-title" class="form-label">Content:</label>
-                    <div id="summernote" style="background-color:red">
+                    <div class="mb-3">
+                        <label for="image-title" class="form-label">Title:</label>
+                        <input type="text" id="title" class="form-control" placeholder="Title here...">
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <div class="col-12">
+                    <label for="image-title" class="form-label">Content:</label>
+                    <div id="summernote">
+                    </div>
+                </div>
+                <button type="button" id="save_post" class="btn btn-primary">Submit</button>
             </form>
         </div>
     </div>
@@ -64,4 +70,31 @@
         $('.table').css('border', 'none');
     });
 </script>
-@include('admin.includes.footer');
+
+<script>
+    $('#save_post').click(async function(e) {
+        e.preventDefault();
+        await addPost();
+    });
+    async function addPost() {
+        $token = $("#token").val();
+        $title = $("#title").val();
+        $content = $('#summernote').summernote('code');
+        $('#loader').css('display', 'flex');
+        await $.ajax({
+            type: "POST",
+            url: "{{ route('certificate.store') }}",
+            data: {
+                '_token': $token,
+                'title': $title,
+                'content': $content,
+            },
+            success: function(response) {
+                // let result = JSON.parse(response);
+                console.log(response)
+                $('#loader').css('display', 'none');
+            }
+        });
+    }
+</script>
+@include('admin.includes.footer'); --}}

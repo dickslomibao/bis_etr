@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('newsfeeds', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->text('content');
+            $table->string('type');
             $table->timestamps();
         });
     }

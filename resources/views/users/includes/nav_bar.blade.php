@@ -35,7 +35,7 @@
         <img src="/assets/load.gif" alt="" srcset="">
     </div>
     <nav class="navbar navbar-expand-md bg-dark" data-bs-theme="dark">
-        <div class="container">
+        <div class="container-fluid">
             <a class="navbar-brand" href="#">
                 <h5>Alitaya System's</h5>
             </a>
@@ -45,19 +45,25 @@
             </button>
             <div class="collapse navbar-collapse justify-content-center" id="navbarNavDropdown">
                 <ul class="navbar-nav">
-                    <li class="nav-item active">
-                        <a class="nav-link" aria-current="page" href="#">Home</a>
+                    <li class="nav-item {{ $active == 'home' ? 'active' : '' }}">
+                        <a class="nav-link" aria-current="page" href="/">Home</a>
+                    </li>
+                    <li class="nav-item {{ $active == 'news' ? 'active' : '' }}">
+                        <a class="nav-link" href="/news">News</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">News</a>
+                        <a class="nav-link {{ $active == 'announcement' ? 'active' : '' }}"
+                            href="/annoucement">Annoucement</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Articles</a>
+                        <a class="nav-link {{ $active == 'activities' ? 'active' : '' }}"
+                            href="/activities">Activities</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Activities</a>
-                    </li>
+
                     @auth
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('profile') }}">Profile</a>
+                        </li>
                         @if (Auth::user()->type != 1)
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('myrequest') }}">My request</a>
@@ -85,13 +91,21 @@
                             {{ Chatify::countAllUnseenMessages() }}+
                         </span>
                     </a>
+
                     @if (Auth::user()->type != 1)
                         <button class="btn btn-sm btn-outline-secondary make-request-btn" type="button"
                             data-bs-toggle="modal" data-bs-target="#exampleModal">Make Request</button>
                     @endif
+
+                    <a style="height: 30px;margin-right:15px" id="logout" role="button"
+                        class="position-relative btn btn-sm btn-outline-secondary">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+
+                    </a>
                 @else
                     <a href="/login"><button class="btn btn-sm btn-outline-secondary" type="button">Login</button></a>
-                    <button class="btn btn-sm btn-outline-secondary" type="button">Register</button>
+                    <a href="/register"><button class="btn btn-sm btn-outline-secondary"
+                            type="button">Register</button></a>
                 @endif
             </div>
         </div>

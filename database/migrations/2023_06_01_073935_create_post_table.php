@@ -17,7 +17,6 @@ return new class extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('title');
-            $table->string('type');
             $table->string('thumbnail')->nullable();
             $table->text('content');
             $table->integer('status')->nullable();

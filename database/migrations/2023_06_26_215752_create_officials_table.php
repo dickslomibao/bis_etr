@@ -19,14 +19,13 @@ return new class extends Migration
             $table->string('middlename');
             $table->string('lastname');
             $table->unsignedBigInteger('position');
-            $table->dateTime('term_start');
-            $table->dateTime('term_end');
+            $table->date('term_start');
+            $table->date('term_end');
             $table->smallInteger('status')->default(1);
             $table->timestamps();
             $table->foreign('position')->references('id')->on('barangay_positions');    
         });
     }
-
     /**
      * Reverse the migrations.
      *

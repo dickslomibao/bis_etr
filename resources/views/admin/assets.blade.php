@@ -19,7 +19,7 @@
                     <th>Title</th>
                     <th>Date created</th>
                     <th>Date updated</th>
-                    <th width="150">Actions</th>
+                    <th width="150" style="text-align: center">Actions</th>
                 </thead>
                 <tbody>
                     @foreach ($assets as $asset)
@@ -28,8 +28,8 @@
 
                             <td>{{ $asset['created_at'] }}</td>
                             <td>{{ $asset['updated_at'] }}</td>
-                            <td><a href="/storage/assets/{{$asset->path}}" class="preview-asset">Preview</a><a href=""
-                                    class="delete-asset">Delete</a></td>
+                            <td style="text-align: center"><a target="_blank" href="/storage/assets/{{$asset->path}}" class="preview-asset">Preview</a></td>
+
                         </tr>
                     @endforeach
                 </tbody>

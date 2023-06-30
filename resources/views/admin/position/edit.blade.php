@@ -28,12 +28,14 @@
             <form action="{{ route('barangay_positions.update', $barangayPosition) }}" method="POST">
                 @csrf
                 @method('PUT')
-                <div>
+
+                <div class="mb-3">
                     <label for="name">Name</label>
-                    <input type="text" name="name" id="name"
+                    <input type="text" class="form-control" name="name" id="name"
                         value="{{ old('name', $barangayPosition->name) }}" required>
                 </div>
-                <button type="submit">Update</button>
+
+                <button class="btn btn-success" type="submit">Update Position</button>
             </form>
         </div>
     </div>
